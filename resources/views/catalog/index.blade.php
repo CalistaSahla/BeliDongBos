@@ -65,7 +65,7 @@
                                         @if(str_starts_with($product->foto_utama, 'http'))
                                             <img src="{{ $product->foto_utama }}" class="card-img-top product-image" alt="{{ $product->nama_produk }}">
                                         @else
-                                            <img src="{{ asset('storage/' . $product->foto_utama) }}" class="card-img-top product-image" alt="{{ $product->nama_produk }}">
+                                            <img src="{{ asset($product->foto_utama) }}" class="card-img-top product-image" alt="{{ $product->nama_produk }}">
                                         @endif
                                     @else
                                         <div class="card-img-top product-image bg-light d-flex align-items-center justify-content-center">
