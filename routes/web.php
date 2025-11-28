@@ -33,8 +33,9 @@ Route::post('/daftar-penjual', [SellerRegistrationController::class, 'register']
 Route::get('/daftar-penjual/sukses', [SellerRegistrationController::class, 'success'])->name('seller.register.success');
 Route::get('/aktivasi/{token}', [SellerRegistrationController::class, 'activate'])->name('seller.activate');
 
-// API for cities
+// API for cities and villages
 Route::get('/api/cities', [SellerRegistrationController::class, 'getCities'])->name('api.cities');
+Route::get('/api/villages', [SellerRegistrationController::class, 'getVillages'])->name('api.villages');
 
 // Platform Admin Routes
 Route::prefix('platform')->middleware(['auth', 'platform'])->group(function () {

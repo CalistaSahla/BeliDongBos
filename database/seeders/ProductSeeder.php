@@ -91,7 +91,7 @@ class ProductSeeder extends Seeder
             
             // Kategori 11: Buku & Alat Tulis
             ['nama' => 'Novel Best Seller 2024', 'kategori' => 11, 'harga' => 89000, 'stok' => 100, 'deskripsi' => 'Novel best seller karya penulis ternama, cerita inspiratif. Soft cover 350 halaman.', 'berat' => '300 gram', 'foto_utama' => '/images/novel.jpg'],
-            ['nama' => 'Buku Tulis A5 Hardcover Set 5', 'kategori' => 11, 'harga' => 75000, 'stok' => 150, 'deskripsi' => 'Set 5 buku tulis A5 hardcover, 100 lembar per buku, kertas HVS 80gsm.', 'berat' => '800 gram', 'foto_utama' => '/images/bukutulis.jpg'],
+            ['nama' => 'Buku Tulis A5 Hardcover Set 5', 'kategori' => 11, 'harga' => 75000, 'stok' => 150, 'deskripsi' => 'Set 5 buku tulis A5 hardcover, 100 lembar per buku, kertas HVS 80gsm.', 'berat' => '800 gram', 'foto_utama' => '/images/bukutulis .jpg'],
             ['nama' => 'Pensil Warna 48 Warna Set', 'kategori' => 11, 'harga' => 125000, 'stok' => 80, 'deskripsi' => 'Set pensil warna 48 warna, pigmen pekat, mudah diblend. Cocok untuk sketsa.', 'berat' => '500 gram', 'foto_utama' => '/images/pensilwarna.webp'],
             ['nama' => 'Pulpen Gel 0.5mm Box 12pcs', 'kategori' => 11, 'harga' => 48000, 'stok' => 200, 'deskripsi' => 'Pulpen gel hitam 0.5mm, tinta lancar tidak mudah blobor. Isi 12 pcs.', 'berat' => '150 gram', 'foto_utama' => '/images/pen.jpg'],
             ['nama' => 'Kamus Bahasa Inggris Lengkap', 'kategori' => 11, 'harga' => 150000, 'stok' => 50, 'deskripsi' => 'Kamus bahasa Inggris-Indonesia lengkap, hardcover, 1200 halaman.', 'berat' => '1.2 kg', 'foto_utama' => '/images/kamus.jpg'],
@@ -141,11 +141,7 @@ class ProductSeeder extends Seeder
                 'berat' => $productData['berat'],
                 'kondisi' => 'baru',
                 'min_pembelian' => '1',
-<<<<<<< HEAD
-                'foto_utama' => 'https://www.digimap.co.id/cdn/shop/files/0788-APPMYEA3ID-A-1.jpg?v=1734067560&width=1445' . $photoId . '/400/400',
-=======
                 'foto_utama' => $productData['foto_utama'],
->>>>>>> f2322602ca8b6ba3a1f7cea0430ded688ff1b970
                 'is_active' => true,
             ]);
             

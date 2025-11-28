@@ -25,6 +25,16 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label for="deskripsi_singkat" class="form-label">Deskripsi Singkat <span class="text-danger">*</span></label>
+                            <textarea class="form-control @error('deskripsi_singkat') is-invalid @enderror" 
+                                id="deskripsi_singkat" name="deskripsi_singkat" rows="2" maxlength="500" required>{{ old('deskripsi_singkat') }}</textarea>
+                            <small class="text-muted">Maksimal 500 karakter</small>
+                            @error('deskripsi_singkat')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="province_id" class="form-label">Provinsi <span class="text-danger">*</span></label>
@@ -60,6 +70,35 @@
                             @error('alamat_toko')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="rt" class="form-label">RT <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('rt') is-invalid @enderror" 
+                                    id="rt" name="rt" value="{{ old('rt') }}" maxlength="10" required>
+                                @error('rt')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="rw" class="form-label">RW <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('rw') is-invalid @enderror" 
+                                    id="rw" name="rw" value="{{ old('rw') }}" maxlength="10" required>
+                                @error('rw')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="village_id" class="form-label">Kelurahan <span class="text-danger">*</span></label>
+                                <select class="form-select @error('village_id') is-invalid @enderror" 
+                                    id="village_id" name="village_id" required>
+                                    <option value="">Pilih Kelurahan</option>
+                                </select>
+                                @error('village_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
                         <hr>
@@ -104,13 +143,33 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="foto_ktp" class="form-label">Foto KTP PIC <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control @error('foto_ktp') is-invalid @enderror" 
-                                id="foto_ktp" name="foto_ktp" accept="image/*" required>
-                            <small class="text-muted">Format: JPG, PNG. Maksimal 2MB</small>
-                            @error('foto_ktp')
+                            <label for="no_ktp" class="form-label">No. KTP PIC <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('no_ktp') is-invalid @enderror" 
+                                id="no_ktp" name="no_ktp" value="{{ old('no_ktp') }}" maxlength="20" required>
+                            @error('no_ktp')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="foto_pic" class="form-label">Foto PIC <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control @error('foto_pic') is-invalid @enderror" 
+                                    id="foto_pic" name="foto_pic" accept="image/*" required>
+                                <small class="text-muted">Format: JPG, PNG. Maksimal 2MB</small>
+                                @error('foto_pic')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="foto_ktp" class="form-label">File Upload KTP PIC <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control @error('foto_ktp') is-invalid @enderror" 
+                                    id="foto_ktp" name="foto_ktp" accept="image/*" required>
+                                <small class="text-muted">Format: JPG, PNG. Maksimal 2MB</small>
+                                @error('foto_ktp')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
                         <hr>
@@ -150,8 +209,10 @@
 document.getElementById('province_id').addEventListener('change', function() {
     const provinceId = this.value;
     const citySelect = document.getElementById('city_id');
+    const villageSelect = document.getElementById('village_id');
     
     citySelect.innerHTML = '<option value="">Memuat...</option>';
+    villageSelect.innerHTML = '<option value="">Pilih Kelurahan</option>';
     
     if (provinceId) {
         fetch(`/api/cities?province_id=${provinceId}`)
@@ -164,6 +225,26 @@ document.getElementById('province_id').addEventListener('change', function() {
             });
     } else {
         citySelect.innerHTML = '<option value="">Pilih Kota/Kabupaten</option>';
+    }
+});
+
+document.getElementById('city_id').addEventListener('change', function() {
+    const cityId = this.value;
+    const villageSelect = document.getElementById('village_id');
+    
+    villageSelect.innerHTML = '<option value="">Memuat...</option>';
+    
+    if (cityId) {
+        fetch(`/api/villages?city_id=${cityId}`)
+            .then(response => response.json())
+            .then(villages => {
+                villageSelect.innerHTML = '<option value="">Pilih Kelurahan</option>';
+                villages.forEach(village => {
+                    villageSelect.innerHTML += `<option value="${village.id}">${village.name}</option>`;
+                });
+            });
+    } else {
+        villageSelect.innerHTML = '<option value="">Pilih Kelurahan</option>';
     }
 });
 </script>

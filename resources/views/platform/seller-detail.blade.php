@@ -17,7 +17,10 @@
             <div class="card-body">
                 <table class="table table-borderless">
                     <tr><td width="200" class="text-muted">Nama Toko</td><td><strong>{{ $seller->nama_toko }}</strong></td></tr>
+                    <tr><td class="text-muted">Deskripsi Singkat</td><td>{{ $seller->deskripsi_singkat ?? '-' }}</td></tr>
                     <tr><td class="text-muted">Alamat</td><td>{{ $seller->alamat_toko }}</td></tr>
+                    <tr><td class="text-muted">RT/RW</td><td>{{ $seller->rt ?? '-' }}/{{ $seller->rw ?? '-' }}</td></tr>
+                    <tr><td class="text-muted">Kelurahan</td><td>{{ $seller->village->name ?? '-' }}</td></tr>
                     <tr><td class="text-muted">Kota/Kabupaten</td><td>{{ $seller->city->name ?? '-' }}</td></tr>
                     <tr><td class="text-muted">Provinsi</td><td>{{ $seller->province->name ?? '-' }}</td></tr>
                     <tr><td class="text-muted">Status</td><td>
@@ -42,6 +45,7 @@
                     <tr><td class="text-muted">Kontak PIC</td><td>{{ $seller->kontak_pic }}</td></tr>
                     <tr><td class="text-muted">Nomor HP</td><td>{{ $seller->nomor_hp }}</td></tr>
                     <tr><td class="text-muted">Email</td><td>{{ $seller->email }}</td></tr>
+                    <tr><td class="text-muted">No. KTP</td><td>{{ $seller->no_ktp ?? '-' }}</td></tr>
                 </table>
             </div>
         </div>
@@ -49,11 +53,25 @@
 
     <div class="col-md-4">
         <div class="card shadow-sm mb-4">
-            <div class="card-header bg-white"><strong>Foto KTP PIC</strong></div>
+            <div class="card-header bg-white"><strong>Foto PIC</strong></div>
+            <div class="card-body text-center">
+                @if($seller->foto_pic)
+                    <a href="{{ asset('storage/' . $seller->foto_pic) }}" target="_blank">
+                        <img src="{{ asset('storage/' . $seller->foto_pic) }}" class="img-fluid rounded" style="max-height: 200px;">
+                    </a>
+                    <p class="text-muted mt-2"><small>Klik untuk memperbesar</small></p>
+                @else
+                    <p class="text-muted">Tidak ada foto PIC</p>
+                @endif
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white"><strong>File KTP PIC</strong></div>
             <div class="card-body text-center">
                 @if($seller->foto_ktp)
                     <a href="{{ asset('storage/' . $seller->foto_ktp) }}" target="_blank">
-                        <img src="{{ asset('storage/' . $seller->foto_ktp) }}" class="img-fluid rounded" style="max-height: 300px;">
+                        <img src="{{ asset('storage/' . $seller->foto_ktp) }}" class="img-fluid rounded" style="max-height: 200px;">
                     </a>
                     <p class="text-muted mt-2"><small>Klik untuk memperbesar</small></p>
                 @else
