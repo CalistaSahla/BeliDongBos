@@ -14,10 +14,10 @@ class SellerSeeder extends Seeder
     {
         $sellers = [
             [
-                'user' => ['name' => 'Calista Aurelia', 'email' => 'calista@calistastore.com'],
+                'user' => ['name' => 'Calista Sahla', 'email' => 'calista@calistastore.com'],
                 'seller' => [
                     'nama_toko' => 'Calista Gadget Store',
-                    'nama_pic' => 'Calista Aurelia',
+                    'nama_pic' => 'Calista sahla',
                     'kontak_pic' => '081234567890',
                     'alamat_toko' => 'Jl. Mangga Dua No. 123, Jakarta Pusat',
                     'city_id' => 1,

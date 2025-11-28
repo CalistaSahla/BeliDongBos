@@ -141,7 +141,7 @@ class ProductSeeder extends Seeder
                 'berat' => $productData['berat'],
                 'kondisi' => 'baru',
                 'min_pembelian' => '1',
-                'foto_utama' => 'https://picsum.photos/seed/' . $photoId . '/400/400',
+                'foto_utama' => 'https://www.digimap.co.id/cdn/shop/files/0788-APPMYEA3ID-A-1.jpg?v=1734067560&width=1445' . $photoId . '/400/400',
                 'is_active' => true,
             ]);
             
