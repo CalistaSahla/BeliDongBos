@@ -14,27 +14,68 @@
 
     <div class="row">
         <div class="col-md-5">
-            <div class="card shadow-sm">
-                @if($product->foto_utama)
-                    @if(str_starts_with($product->foto_utama, 'http'))
-                        <img src="{{ $product->foto_utama }}" class="card-img-top" alt="{{ $product->nama_produk }}" style="max-height: 400px; object-fit: contain;">
-                    @else
-                        <img src="{{ asset('storage/' . $product->foto_utama) }}" class="card-img-top" alt="{{ $product->nama_produk }}" style="max-height: 400px; object-fit: contain;">
-                    @endif
-                @else
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
-                        <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
-                    </div>
-                @endif
-            </div>
-            @if($product->foto_galeri && count($product->foto_galeri) > 0)
-                <div class="row mt-2">
-                    @foreach($product->foto_galeri as $foto)
-                        <div class="col-3">
-                            <img src="{{ asset('storage/' . $foto) }}" class="img-thumbnail" alt="Galeri">
+            @php
+                $allPhotos = [];
+                if($product->foto_utama) {
+                    $allPhotos[] = $product->foto_utama;
+                }
+                if($product->foto_galeri && count($product->foto_galeri) > 0) {
+                    $allPhotos = array_merge($allPhotos, $product->foto_galeri);
+                }
+            @endphp
+            
+            @if(count($allPhotos) > 0)
+            <div id="productCarousel" class="carousel slide card shadow-sm" data-bs-ride="false">
+                <div class="carousel-indicators">
+                    @foreach($allPhotos as $index => $foto)
+                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="{{ $index }}" 
+                            class="{{ $index == 0 ? 'active' : '' }}" aria-current="{{ $index == 0 ? 'true' : 'false' }}"></button>
+                    @endforeach
+                </div>
+                <div class="carousel-inner">
+                    @foreach($allPhotos as $index => $foto)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            @if(str_starts_with($foto, 'http'))
+                                <img src="{{ $foto }}" class="d-block w-100" alt="{{ $product->nama_produk }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                            @else
+                                <img src="{{ asset('storage/' . $foto) }}" class="d-block w-100" alt="{{ $product->nama_produk }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                            @endif
                         </div>
                     @endforeach
                 </div>
+                @if(count($allPhotos) > 1)
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev" style="width: 40px;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.6); border-radius: 50%; padding: 10px; width: 30px; height: 30px;"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next" style="width: 40px;">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.6); border-radius: 50%; padding: 10px; width: 30px; height: 30px;"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                @endif
+            </div>
+            
+            @if(count($allPhotos) > 1)
+            <div class="row mt-2">
+                @foreach($allPhotos as $index => $foto)
+                    <div class="col-3 mb-2">
+                        <img src="{{ str_starts_with($foto, 'http') ? $foto : asset('storage/' . $foto) }}" 
+                            class="img-thumbnail thumbnail-nav" 
+                            alt="Thumbnail {{ $index + 1 }}"
+                            data-bs-target="#productCarousel" 
+                            data-bs-slide-to="{{ $index }}"
+                            style="cursor: pointer; height: 70px; object-fit: cover; {{ $index == 0 ? 'border: 3px solid var(--retro-purple);' : '' }}"
+                            onclick="document.querySelectorAll('.thumbnail-nav').forEach(t => t.style.border = ''); this.style.border = '3px solid var(--retro-purple)';">
+                    </div>
+                @endforeach
+            </div>
+            @endif
+            @else
+            <div class="card shadow-sm">
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
+                </div>
+            </div>
             @endif
         </div>
 
@@ -57,7 +98,7 @@
                 <tr><td class="text-muted" width="150">Kondisi</td><td>{{ ucfirst($product->kondisi) }}</td></tr>
                 <tr><td class="text-muted">Stok</td><td>{{ $product->stok }} pcs</td></tr>
                 <tr><td class="text-muted">Berat</td><td>{{ $product->berat ?? '-' }}</td></tr>
-                <tr><td class="text-muted">Min. Pembelian</td><td>{{ $product->min_pembelian }} pcs</td></tr>
+
                 <tr><td class="text-muted">Kategori</td><td>{{ $product->category->name }}</td></tr>
                 @if($product->etalase)
                 <tr><td class="text-muted">Etalase</td><td>{{ $product->etalase }}</td></tr>
