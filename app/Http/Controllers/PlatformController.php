@@ -30,19 +30,17 @@ class PlatformController extends Controller
             ->get()
             ->map(fn($c) => ['name' => $c->name, 'count' => $c->products_count]);
 
-        $productsPerProvince = Province::select('provinces.id', 'provinces.name')
-            ->leftJoin('sellers', 'provinces.id', '=', 'sellers.province_id')
-            ->leftJoin('products', 'sellers.id', '=', 'products.seller_id')
-            ->selectRaw('COUNT(products.id) as products_count')
-            ->groupBy('provinces.id', 'provinces.name')
-            ->orderBy('products_count', 'desc')
+        $sellersPerProvince = Province::withCount(['sellers' => function($q) {
+                $q->where('status', 'approved');
+            }])
+            ->orderBy('sellers_count', 'desc')
             ->limit(10)
             ->get()
-            ->map(fn($p) => ['name' => $p->name, 'count' => $p->products_count]);
+            ->map(fn($p) => ['name' => $p->name, 'count' => $p->sellers_count]);
 
         $ratingsCount = Rating::count();
 
-        return view('platform.dashboard', compact('stats', 'productsPerCategory', 'productsPerProvince', 'ratingsCount'));
+        return view('platform.dashboard', compact('stats', 'productsPerCategory', 'sellersPerProvince', 'ratingsCount'));
     }
 
     public function pendingSellers()

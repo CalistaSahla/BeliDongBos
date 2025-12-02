@@ -67,7 +67,7 @@
     </div>
     <div class="col-md-6 mb-4">
         <div class="card shadow-sm">
-            <div class="card-header bg-white"><strong>Sebaran Produk per Provinsi (Top 10)</strong></div>
+            <div class="card-header bg-white"><strong>Sebaran Toko per Provinsi (Top 10)</strong></div>
             <div class="card-body">
                 <canvas id="provinceChart" height="250"></canvas>
             </div>
@@ -99,7 +99,7 @@
 @push('scripts')
 <script>
 const categoryData = @json($productsPerCategory);
-const provinceData = @json($productsPerProvince);
+const provinceData = @json($sellersPerProvince);
 
 new Chart(document.getElementById('categoryChart'), {
     type: 'doughnut',
@@ -124,7 +124,7 @@ new Chart(document.getElementById('provinceChart'), {
     data: {
         labels: provinceData.map(d => d.name),
         datasets: [{
-            label: 'Jumlah Produk',
+            label: 'Jumlah Toko',
             data: provinceData.map(d => d.count),
             backgroundColor: ['#663399', '#008080', '#FF6B35', '#FFD700', '#4169E1', '#32CD32', '#DC143C', '#FF69B4', '#00CED1', '#FF8C00'],
             borderColor: '#333',
