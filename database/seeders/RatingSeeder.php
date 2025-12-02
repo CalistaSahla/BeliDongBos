@@ -15,10 +15,13 @@ class RatingSeeder extends Seeder
         $provinces = Province::all();
         
         $names = [
-            'Andi Wijaya', 'Rina Susanti', 'Dedi Kurniawan', 'Maya Putri', 'Fajar Ramadan',
-            'Novi Anggraini', 'Riko Saputra', 'Lina Marlina', 'Bagus Prakoso', 'Indah Permata',
-            'Yusuf Hakim', 'Fitri Handayani', 'Arif Budiman', 'Sari Dewi', 'Hendra Gunawan',
-            'Wulan Sari', 'Bayu Aditya', 'Nia Rahayu', 'Dian Pratama', 'Anisa Safitri'
+            // Public Figures & Celebrities
+            'Selena Gomez', 'Justin Bieber', 'Donald Trump', 'Elon Musk', 'Taylor Swift',
+            'Ariana Grande', 'Kim Kardashian', 'Cristiano Ronaldo', 'Lionel Messi', 'BTS Jungkook',
+            'Blackpink Lisa', 'Kylie Jenner', 'Dwayne Johnson', 'Barack Obama', 'Bill Gates',
+            'Mark Zuckerberg', 'Jeff Bezos', 'Oprah Winfrey', 'Ed Sheeran', 'Bruno Mars',
+            'Rihanna', 'Beyonce', 'Lady Gaga', 'Drake', 'Post Malone',
+            'Joko Widodo', 'Raffi Ahmad', 'Nagita Slavina', 'Atta Halilintar', 'Deddy Corbuzier'
         ];
 
         $comments = [
