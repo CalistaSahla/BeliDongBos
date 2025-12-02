@@ -60,19 +60,18 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Berat</label>
                             <input type="text" name="berat" class="form-control" value="{{ old('berat') }}" 
                                 placeholder="contoh: 500 gram">
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Kondisi <span class="text-danger">*</span></label>
                             <select name="kondisi" class="form-select" required>
                                 <option value="baru" {{ old('kondisi') == 'baru' ? 'selected' : '' }}>Baru</option>
                                 <option value="bekas" {{ old('kondisi') == 'bekas' ? 'selected' : '' }}>Bekas</option>
                             </select>
                         </div>
-
                     </div>
 
                     <div class="mb-3">
