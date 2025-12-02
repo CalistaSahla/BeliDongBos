@@ -40,7 +40,11 @@ class RatingController extends Controller
             'province_id' => $validated['province_id'] ?? null,
         ]);
 
-        Mail::to($validated['email'])->send(new RatingThankYou($rating, $product));
+        try {
+            Mail::to($validated['email'])->send(new RatingThankYou($rating, $product));
+        } catch (\Exception $e) {
+            // Email gagal dikirim, tapi rating tetap tersimpan
+        }
 
         return redirect()->back()
             ->with('success', 'Terima kasih! Ulasan Anda berhasil dikirim.');
