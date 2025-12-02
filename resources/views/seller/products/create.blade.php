@@ -10,9 +10,20 @@
     </a>
 </div>
 
+@if($errors->any())
+<div class="alert alert-danger">
+    <strong>Error!</strong> Periksa kembali inputan Anda.
+    <ul class="mb-0 mt-2">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <div class="card shadow-sm">
     <div class="card-body">
-        <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data" id="formProduk">
             @csrf
             
             <div class="row">
@@ -99,10 +110,20 @@
             </div>
 
             <hr>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" id="btnSimpan">
                 <i class="bi bi-check-circle"></i> Simpan Produk
             </button>
         </form>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('formProduk').addEventListener('submit', function(e) {
+    var btn = document.getElementById('btnSimpan');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Menyimpan...';
+});
+</script>
+@endpush
