@@ -18,11 +18,15 @@
             --retro-green: #32CD32;
             --retro-red: #DC143C;
         }
+        html { height: 100%; }
         body { 
             background: linear-gradient(135deg, #FFFACD 0%, #E6E6FA 50%, #B0E0E6 100%);
             font-family: 'Comic Neue', cursive, Arial, sans-serif;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+        main { flex: 1; }
         .navbar { 
             background: linear-gradient(90deg, var(--retro-purple), var(--retro-teal)) !important;
             border-bottom: 4px solid var(--retro-yellow);
@@ -95,21 +99,26 @@
             font-weight: bold;
             color: #333;
         }
-        .pagination { gap: 5px; }
+        .pagination { gap: 3px; }
         .page-link { 
             color: #333;
             border: 2px solid #333;
             background: #fff;
             font-weight: bold;
-            padding: 5px 12px;
-            font-size: 14px;
+            padding: 6px 12px;
+            font-size: 13px;
         }
         .page-item.active .page-link { 
             background: var(--retro-purple);
             border-color: #333;
             color: #fff;
         }
+        .page-item.disabled .page-link {
+            background: #e9ecef;
+            color: #6c757d;
+        }
         .page-link:hover { background: var(--retro-yellow); color: #333; }
+        .page-link svg { width: 12px; height: 12px; }
         .form-control, .form-select { 
             border: 2px solid #333;
             border-radius: 0;
@@ -195,7 +204,7 @@
         @yield('content')
     </main>
 
-    <footer class="footer mt-5 py-4">
+    <footer class="footer mt-auto py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">

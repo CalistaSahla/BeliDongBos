@@ -77,9 +77,11 @@
         .table td { border: 2px solid #333; }
         .badge { border: 2px solid #333; font-weight: bold; }
         .form-control, .form-select { border: 2px solid #333; border-radius: 0; }
-        .pagination { gap: 5px; }
-        .page-link { border: 2px solid #333; font-weight: bold; padding: 5px 12px; font-size: 14px; }
-        .page-item.active .page-link { background: var(--retro-purple); border-color: #333; }
+        .pagination { gap: 3px; }
+        .page-link { border: 2px solid #333; font-weight: bold; padding: 6px 12px; font-size: 13px; background: #fff; color: #333; }
+        .page-item.active .page-link { background: var(--retro-purple); border-color: #333; color: #fff; }
+        .page-item.disabled .page-link { background: #e9ecef; color: #6c757d; }
+        .page-link:hover { background: var(--retro-yellow); color: #333; }
         .alert { border: 3px solid #333; border-radius: 0; box-shadow: 4px 4px 0 #333; }
         .btn-sm { padding: 4px 10px; font-size: 13px; }
     </style>
@@ -125,6 +127,11 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('seller.products.*') ? 'active' : '' }}" href="{{ route('seller.products.index') }}">
                                 <i class="bi bi-box-seam"></i> Produk Saya
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('seller.reports') ? 'active' : '' }}" href="{{ route('seller.reports') }}">
+                                <i class="bi bi-file-earmark-pdf"></i> Laporan PDF
                             </a>
                         </li>
                     @endif
