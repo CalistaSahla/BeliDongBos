@@ -72,10 +72,7 @@
                                 <option value="bekas" {{ old('kondisi') == 'bekas' ? 'selected' : '' }}>Bekas</option>
                             </select>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Min. Pembelian</label>
-                            <input type="text" name="min_pembelian" class="form-control" value="{{ old('min_pembelian', '1') }}">
-                        </div>
+
                     </div>
 
                     <div class="mb-3">
