@@ -27,14 +27,15 @@
 </head>
 <body>
     <div class="header">
-        <h1>BeliDongBos Marketplace</h1>
-        <p>@yield('report-title')</p>
-        <p>Digenerate pada: {{ $generatedAt }}</p>
+    <h1>BeliDongBos Marketplace</h1>
+    <p>@yield('report-title')</p>
+    @yield('report-meta') 
+    <p>Digenerate pada: {{ $generatedAt }}</p> 
     </div>
 
     <div class="seller-info">
         <h3>Toko: {{ $seller->nama_toko }}</h3>
-        <p>Pemilik: {{ $seller->nama_pemilik }} | Lokasi: {{ $seller->city->name ?? '-' }}, {{ $seller->province->name ?? '-' }}</p>
+        <p>Pemilik: {{ $seller->nama_pic }} | Lokasi: {{ $seller->city->name ?? '-' }}, {{ $seller->province->name ?? '-' }}</p>
     </div>
 
     @yield('content')

@@ -23,9 +23,10 @@
 </head>
 <body>
     <div class="header">
-        <h1>BeliDongBos Marketplace</h1>
-        <p>@yield('report-title')</p>
-        <p>Digenerate pada: {{ $generatedAt }}</p>
+    <h1>BeliDongBos Marketplace</h1>
+    <p>@yield('report-title')</p>
+    @yield('report-meta') 
+    <p>Digenerate pada: {{ $generatedAt }}</p> 
     </div>
 
     @yield('content')
