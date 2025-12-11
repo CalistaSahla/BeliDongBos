@@ -34,6 +34,8 @@
                             @if($product->foto_utama)
                                 @if(str_starts_with($product->foto_utama, 'http'))
                                     <img src="{{ $product->foto_utama }}" width="50" height="50" class="rounded" style="object-fit: cover;">
+                                @elseif(str_starts_with($product->foto_utama, '/'))
+                                    <img src="{{ asset($product->foto_utama) }}" width="50" height="50" class="rounded" style="object-fit: cover;">
                                 @else
                                     <img src="{{ asset('storage/' . $product->foto_utama) }}" width="50" height="50" class="rounded" style="object-fit: cover;">
                                 @endif

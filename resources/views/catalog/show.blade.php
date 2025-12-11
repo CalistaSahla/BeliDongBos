@@ -358,6 +358,8 @@
                                 @if($related->foto_utama)
                                     @if(str_starts_with($related->foto_utama, 'http'))
                                         <img src="{{ $related->foto_utama }}" class="card-img-top" style="height: 150px; object-fit: cover;">
+                                    @elseif(str_starts_with($related->foto_utama, '/'))
+                                        <img src="{{ asset($related->foto_utama) }}" class="card-img-top" style="height: 150px; object-fit: cover;">
                                     @else
                                         <img src="{{ asset('storage/' . $related->foto_utama) }}" class="card-img-top" style="height: 150px; object-fit: cover;">
                                     @endif
@@ -440,8 +442,8 @@
         if (src.startsWith('http')) {
             // URL eksternal, gunakan langsung
         } else if (src.startsWith('/')) {
-            // Path lokal seperti /images/xxx.webp
-            src = '{{ asset("") }}' + src;
+            // Path lokal seperti /images/xxx.webp - gunakan asset tanpa tambahan slash
+            src = '{{ url("") }}' + src;
         } else {
             // Path storage seperti products/xxx.jpg
             src = '{{ asset("storage") }}/' + src;

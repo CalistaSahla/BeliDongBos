@@ -9,6 +9,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\SellerRegistrationController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 // Home - Redirect to catalog
 Route::get('/', function () {
@@ -70,4 +71,14 @@ Route::prefix('seller')->middleware(['auth', 'seller'])->group(function () {
     Route::get('/laporan/stok-tertinggi', [ReportController::class, 'sellerProductsByStock'])->name('seller.report.products-by-stock');
     Route::get('/laporan/stok-berdasarkan-rating', [ReportController::class, 'sellerProductsByRating'])->name('seller.report.products-by-rating');
     Route::get('/laporan/produk-restock', [ReportController::class, 'sellerProductsNeedRestock'])->name('seller.report.products-need-restock');
+});
+
+
+Route::get('/test-email', function () {
+    Mail::raw('Hello, this is a test email from Laravel using Mailtrap.', function ($message) {
+        $message->to('test@example.com')
+                ->subject('Mailtrap Laravel Test');
+    });
+
+    return 'Email sent! Check Mailtrap.';
 });

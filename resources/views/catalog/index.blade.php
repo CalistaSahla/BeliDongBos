@@ -23,13 +23,19 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Provinsi</label>
-                            <select name="province_id" class="form-select form-select-sm">
+                            <select name="province_id" id="province_id" class="form-select form-select-sm">
                                 <option value="">Semua Provinsi</option>
                                 @foreach($provinces as $province)
                                     <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>
                                         {{ $province->name }}
                                     </option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kota/Kabupaten</label>
+                            <select name="city_id" id="city_id" class="form-select form-select-sm">
+                                <option value="">Semua Kota</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -64,8 +70,10 @@
                                     @if($product->foto_utama)
                                         @if(str_starts_with($product->foto_utama, 'http'))
                                             <img src="{{ $product->foto_utama }}" class="card-img-top product-image" alt="{{ $product->nama_produk }}">
-                                        @else
+                                        @elseif(str_starts_with($product->foto_utama, '/'))
                                             <img src="{{ asset($product->foto_utama) }}" class="card-img-top product-image" alt="{{ $product->nama_produk }}">
+                                        @else
+                                            <img src="{{ asset('storage/' . $product->foto_utama) }}" class="card-img-top product-image" alt="{{ $product->nama_produk }}">
                                         @endif
                                     @else
                                         <div class="card-img-top product-image bg-light d-flex align-items-center justify-content-center">
@@ -114,3 +122,42 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const provinceSelect = document.getElementById('province_id');
+    const citySelect = document.getElementById('city_id');
+    const currentCityId = '{{ request('city_id') }}';
+    
+    function loadCities(provinceId, selectedCityId = null) {
+        if (!provinceId) {
+            citySelect.innerHTML = '<option value="">Semua Kota</option>';
+            return;
+        }
+        
+        citySelect.innerHTML = '<option value="">Memuat...</option>';
+        
+        fetch(`/api/cities?province_id=${provinceId}`)
+            .then(response => response.json())
+            .then(cities => {
+                citySelect.innerHTML = '<option value="">Semua Kota</option>';
+                cities.forEach(city => {
+                    const selected = selectedCityId && city.id == selectedCityId ? 'selected' : '';
+                    citySelect.innerHTML += `<option value="${city.id}" ${selected}>${city.name}</option>`;
+                });
+            });
+    }
+    
+    // Load cities if province is already selected
+    if (provinceSelect.value) {
+        loadCities(provinceSelect.value, currentCityId);
+    }
+    
+    // Load cities when province changes
+    provinceSelect.addEventListener('change', function() {
+        loadCities(this.value);
+    });
+});
+</script>
+@endpush

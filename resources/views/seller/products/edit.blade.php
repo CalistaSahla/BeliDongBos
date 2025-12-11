@@ -92,7 +92,13 @@
                     <div class="mb-3">
                         <label class="form-label">Foto Utama Saat Ini</label>
                         @if($product->foto_utama)
-                            <img src="{{ asset('storage/' . $product->foto_utama) }}" class="img-thumbnail mb-2" style="max-height: 150px;">
+                            @if(str_starts_with($product->foto_utama, 'http'))
+                                <img src="{{ $product->foto_utama }}" class="img-thumbnail mb-2" style="max-height: 150px;">
+                            @elseif(str_starts_with($product->foto_utama, '/'))
+                                <img src="{{ asset($product->foto_utama) }}" class="img-thumbnail mb-2" style="max-height: 150px;">
+                            @else
+                                <img src="{{ asset('storage/' . $product->foto_utama) }}" class="img-thumbnail mb-2" style="max-height: 150px;">
+                            @endif
                         @endif
                         <input type="file" name="foto_utama" class="form-control @error('foto_utama') is-invalid @enderror" accept="image/*">
                         <small class="text-muted">Kosongkan jika tidak ingin mengubah</small>
@@ -105,7 +111,13 @@
                             <div class="row mb-2">
                                 @foreach($product->foto_galeri as $foto)
                                     <div class="col-4 mb-2">
-                                        <img src="{{ asset('storage/' . $foto) }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
+                                        @if(str_starts_with($foto, 'http'))
+                                            <img src="{{ $foto }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
+                                        @elseif(str_starts_with($foto, '/'))
+                                            <img src="{{ asset($foto) }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('storage/' . $foto) }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>

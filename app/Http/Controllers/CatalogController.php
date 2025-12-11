@@ -28,6 +28,15 @@ class CatalogController extends Controller
                   ->orWhere('deskripsi', 'like', "%{$search}%")
                   ->orWhereHas('seller', function ($sq) use ($search) {
                       $sq->where('nama_toko', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('seller.city', function ($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('seller.province', function ($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('category', function ($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
                   });
             });
         }

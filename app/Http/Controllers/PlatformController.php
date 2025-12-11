@@ -61,8 +61,12 @@ class PlatformController extends Controller
 
     public function approveSeller(Request $request, Seller $seller)
     {
+        // Generate new activation token if not exists
+        $activationToken = $seller->activation_token ?? \Illuminate\Support\Str::random(60);
+        
         $seller->update([
             'status' => 'approved',
+            'activation_token' => $activationToken,
         ]);
 
         Mail::to($seller->email)->send(new SellerApproved($seller));
