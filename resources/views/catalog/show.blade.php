@@ -2,6 +2,121 @@
 
 @section('title', $product->nama_produk)
 
+@push('styles')
+<style>
+    .zoomable-image {
+        cursor: zoom-in;
+        transition: opacity 0.2s;
+    }
+    .zoomable-image:hover {
+        opacity: 0.9;
+    }
+    #imageZoomModal .modal-dialog {
+        max-width: 90vw;
+        margin: 1.75rem auto;
+    }
+    #imageZoomModal .modal-content {
+        background: rgba(0, 0, 0, 0.95);
+        border: none;
+    }
+    #imageZoomModal .modal-body {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        overflow: hidden;
+        position: relative;
+    }
+    #zoomImageContainer {
+        overflow: hidden;
+        width: 100%;
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+    }
+    #zoomImageContainer.dragging {
+        cursor: grabbing;
+    }
+    #zoomedImage {
+        max-width: none;
+        max-height: none;
+        transition: transform 0.1s ease-out;
+        user-select: none;
+        -webkit-user-drag: none;
+    }
+    .zoom-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 1060;
+    }
+    .zoom-controls button {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .zoom-controls button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    #imageZoomModal .btn-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 1060;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        padding: 10px;
+        opacity: 1;
+    }
+    .zoom-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1060;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .zoom-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .zoom-nav-prev { left: 15px; }
+    .zoom-nav-next { right: 15px; }
+    .zoom-indicator {
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        z-index: 1060;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="container py-4">
     <nav aria-label="breadcrumb">
@@ -36,9 +151,11 @@
                     @foreach($allPhotos as $index => $foto)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                             @if(str_starts_with($foto, 'http'))
-                                <img src="{{ $foto }}" class="d-block w-100" alt="{{ $product->nama_produk }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                                <img src="{{ $foto }}" class="d-block w-100 zoomable-image" alt="{{ $product->nama_produk }}" data-index="{{ $index }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;" onclick="openZoomModal({{ $index }})">
+                            @elseif(str_starts_with($foto, '/'))
+                                <img src="{{ asset($foto) }}" class="d-block w-100 zoomable-image" alt="{{ $product->nama_produk }}" data-index="{{ $index }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;" onclick="openZoomModal({{ $index }})">
                             @else
-                                <img src="{{ asset('storage/' . $foto) }}" class="d-block w-100" alt="{{ $product->nama_produk }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                                <img src="{{ asset('storage/' . $foto) }}" class="d-block w-100 zoomable-image" alt="{{ $product->nama_produk }}" data-index="{{ $index }}" style="max-height: 400px; object-fit: contain; background: #f8f9fa;" onclick="openZoomModal({{ $index }})">
                             @endif
                         </div>
                     @endforeach
@@ -59,7 +176,10 @@
             <div class="row mt-2">
                 @foreach($allPhotos as $index => $foto)
                     <div class="col-3 mb-2">
-                        <img src="{{ str_starts_with($foto, 'http') ? $foto : asset('storage/' . $foto) }}" 
+                        @php
+                            $thumbSrc = str_starts_with($foto, 'http') ? $foto : (str_starts_with($foto, '/') ? asset($foto) : asset('storage/' . $foto));
+                        @endphp
+                        <img src="{{ $thumbSrc }}" 
                             class="img-thumbnail thumbnail-nav" 
                             alt="Thumbnail {{ $index + 1 }}"
                             data-bs-target="#productCarousel" 
@@ -257,4 +377,206 @@
     </div>
     @endif
 </div>
+
+<!-- Modal Zoom Image -->
+<div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+                <div class="zoom-indicator">
+                    <span id="currentImageIndex">1</span> / <span id="totalImages">{{ count($allPhotos ?? []) }}</span>
+                </div>
+                
+                @if(isset($allPhotos) && count($allPhotos) > 1)
+                <button class="zoom-nav-btn zoom-nav-prev" onclick="navigateZoom(-1)">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button class="zoom-nav-btn zoom-nav-next" onclick="navigateZoom(1)">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+                @endif
+                
+                <div id="zoomImageContainer">
+                    <img id="zoomedImage" src="" alt="Zoomed Image">
+                </div>
+                
+                <div class="zoom-controls">
+                    <button onclick="zoomIn()" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+                    <button onclick="zoomOut()" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+                    <button onclick="resetZoom()" title="Reset"><i class="bi bi-arrows-angle-contract"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+    const productImages = @json($allPhotos ?? []);
+    let currentZoomIndex = 0;
+    let currentScale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+    let startX, startY;
+    
+    const zoomModal = document.getElementById('imageZoomModal');
+    const zoomedImage = document.getElementById('zoomedImage');
+    const zoomContainer = document.getElementById('zoomImageContainer');
+    
+    function openZoomModal(index) {
+        currentZoomIndex = index;
+        updateZoomedImage();
+        resetZoom();
+        const modal = new bootstrap.Modal(zoomModal);
+        modal.show();
+    }
+    
+    function updateZoomedImage() {
+        let src = productImages[currentZoomIndex];
+        if (src.startsWith('http')) {
+            // URL eksternal, gunakan langsung
+        } else if (src.startsWith('/')) {
+            // Path lokal seperti /images/xxx.webp
+            src = '{{ asset("") }}' + src;
+        } else {
+            // Path storage seperti products/xxx.jpg
+            src = '{{ asset("storage") }}/' + src;
+        }
+        zoomedImage.src = src;
+        document.getElementById('currentImageIndex').textContent = currentZoomIndex + 1;
+    }
+    
+    function navigateZoom(direction) {
+        currentZoomIndex += direction;
+        if (currentZoomIndex < 0) currentZoomIndex = productImages.length - 1;
+        if (currentZoomIndex >= productImages.length) currentZoomIndex = 0;
+        updateZoomedImage();
+        resetZoom();
+    }
+    
+    function zoomIn() {
+        currentScale = Math.min(currentScale * 1.3, 5);
+        applyTransform();
+    }
+    
+    function zoomOut() {
+        currentScale = Math.max(currentScale / 1.3, 0.5);
+        applyTransform();
+    }
+    
+    function resetZoom() {
+        currentScale = 1;
+        translateX = 0;
+        translateY = 0;
+        applyTransform();
+    }
+    
+    function applyTransform() {
+        zoomedImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+    }
+    
+    // Mouse drag for panning
+    zoomContainer.addEventListener('mousedown', (e) => {
+        if (currentScale > 1) {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            zoomContainer.classList.add('dragging');
+        }
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        applyTransform();
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        zoomContainer.classList.remove('dragging');
+    });
+    
+    // Mouse wheel zoom
+    zoomContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            zoomIn();
+        } else {
+            zoomOut();
+        }
+    });
+    
+    // Touch support for mobile
+    let initialDistance = 0;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+    
+    zoomContainer.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+            initialDistance = getDistance(e.touches[0], e.touches[1]);
+        } else if (e.touches.length === 1 && currentScale > 1) {
+            isDragging = true;
+            lastTouchX = e.touches[0].clientX;
+            lastTouchY = e.touches[0].clientY;
+        }
+    });
+    
+    zoomContainer.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        if (e.touches.length === 2) {
+            const newDistance = getDistance(e.touches[0], e.touches[1]);
+            const scale = newDistance / initialDistance;
+            currentScale = Math.min(Math.max(currentScale * scale, 0.5), 5);
+            initialDistance = newDistance;
+            applyTransform();
+        } else if (e.touches.length === 1 && isDragging) {
+            const deltaX = e.touches[0].clientX - lastTouchX;
+            const deltaY = e.touches[0].clientY - lastTouchY;
+            translateX += deltaX;
+            translateY += deltaY;
+            lastTouchX = e.touches[0].clientX;
+            lastTouchY = e.touches[0].clientY;
+            applyTransform();
+        }
+    });
+    
+    zoomContainer.addEventListener('touchend', () => {
+        isDragging = false;
+        initialDistance = 0;
+    });
+    
+    function getDistance(touch1, touch2) {
+        return Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+    }
+    
+    // Keyboard navigation
+    zoomModal.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') navigateZoom(-1);
+        if (e.key === 'ArrowRight') navigateZoom(1);
+        if (e.key === '+' || e.key === '=') zoomIn();
+        if (e.key === '-') zoomOut();
+        if (e.key === '0') resetZoom();
+        if (e.key === 'Escape') bootstrap.Modal.getInstance(zoomModal).hide();
+    });
+    
+    // Reset zoom when modal closes
+    zoomModal.addEventListener('hidden.bs.modal', () => {
+        resetZoom();
+    });
+    
+    // Double click to zoom
+    zoomedImage.addEventListener('dblclick', () => {
+        if (currentScale > 1) {
+            resetZoom();
+        } else {
+            currentScale = 2;
+            applyTransform();
+        }
+    });
+</script>
+@endpush

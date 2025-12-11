@@ -62,7 +62,7 @@ class ProductSeeder extends Seeder
             ['nama' => 'Parfum Wanita EDT 100ml', 'kategori' => 6, 'harga' => 450000, 'stok' => 40, 'deskripsi' => 'Parfum wanita eau de toilette, wangi floral fruity, tahan lama seharian.', 'berat' => '250 gram', 'foto_utama' => '/images/parfum.webp'],
             
             // Kategori 7: Rumah Tangga
-            ['nama' => 'Blender Multi Fungsi 2L', 'kategori' => 7, 'harga' => 425000, 'stok' => 22, 'deskripsi' => 'Blender multi fungsi kapasitas 2 liter, 3 speed + pulse. Garansi 1 tahun.', 'berat' => '2.5 kg', 'foto_utama' => '/images/blender.jpg'],
+            ['nama' => 'Blender Multi Fungsi 2L', 'kategori' => 7, 'harga' => 425000, 'stok' => 22, 'deskripsi' => 'Blender multi fungsi kapasitas 2 liter, 3 speed + pulse. Garansi 1 tahun.', 'berat' => '2.0 kg', 'foto_utama' => '/images/blender.jpg'],
             ['nama' => 'Rice Cooker Digital 1.8L', 'kategori' => 7, 'harga' => 650000, 'stok' => 28, 'deskripsi' => 'Rice cooker digital kapasitas 1.8 liter, multi cooking. Low watt hemat listrik.', 'berat' => '3 kg', 'foto_utama' => '/images/ricecook.jpg'],
             ['nama' => 'Set Panci Stainless Steel 5pcs', 'kategori' => 7, 'harga' => 550000, 'stok' => 15, 'deskripsi' => 'Set panci stainless steel 5 pcs berbagai ukuran, cocok semua kompor.', 'berat' => '4 kg', 'foto_utama' => '/images/panci.webp'],
             ['nama' => 'Vacuum Cleaner Portable 120W', 'kategori' => 7, 'harga' => 350000, 'stok' => 35, 'deskripsi' => 'Vacuum cleaner portable wireless, daya hisap kuat, cocok untuk mobil dan rumah.', 'berat' => '1.2 kg', 'foto_utama' => '/images/vacuum.webp'],
@@ -91,7 +91,7 @@ class ProductSeeder extends Seeder
             
             // Kategori 11: Buku & Alat Tulis
             ['nama' => 'Novel Best Seller 2024', 'kategori' => 11, 'harga' => 89000, 'stok' => 100, 'deskripsi' => 'Novel best seller karya penulis ternama, cerita inspiratif. Soft cover 350 halaman.', 'berat' => '300 gram', 'foto_utama' => '/images/novel.jpg'],
-            ['nama' => 'Buku Tulis A5 Hardcover Set 5', 'kategori' => 11, 'harga' => 75000, 'stok' => 150, 'deskripsi' => 'Set 5 buku tulis A5 hardcover, 100 lembar per buku, kertas HVS 80gsm.', 'berat' => '800 gram', 'foto_utama' => '/images/bukutulis .jpg'],
+            ['nama' => 'Buku Tulis A5 Hardcover Set 5', 'kategori' => 11, 'harga' => 75000, 'stok' => 150, 'deskripsi' => 'Set 5 buku tulis A5 hardcover, 100 lembar per buku, kertas HVS 80gsm.', 'berat' => '800 gram', 'foto_utama' => '/images/bukutulis.jpg'],
             ['nama' => 'Pensil Warna 48 Warna Set', 'kategori' => 11, 'harga' => 125000, 'stok' => 80, 'deskripsi' => 'Set pensil warna 48 warna, pigmen pekat, mudah diblend. Cocok untuk sketsa.', 'berat' => '500 gram', 'foto_utama' => '/images/pensilwarna.webp'],
             ['nama' => 'Pulpen Gel 0.5mm Box 12pcs', 'kategori' => 11, 'harga' => 48000, 'stok' => 200, 'deskripsi' => 'Pulpen gel hitam 0.5mm, tinta lancar tidak mudah blobor. Isi 12 pcs.', 'berat' => '150 gram', 'foto_utama' => '/images/pen.jpg'],
             ['nama' => 'Kamus Bahasa Inggris Lengkap', 'kategori' => 11, 'harga' => 150000, 'stok' => 50, 'deskripsi' => 'Kamus bahasa Inggris-Indonesia lengkap, hardcover, 1200 halaman.', 'berat' => '1.2 kg', 'foto_utama' => '/images/kamus.jpg'],
