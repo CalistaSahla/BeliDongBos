@@ -13,31 +13,45 @@
 @endsection
 
 @section('content')
-@foreach($provinces as $province)
-<div class="section-title">{{ $province->name }} ({{ $province->sellers->count() }} penjual)</div>
-@if($province->sellers->count() > 0)
+
+@php
+    $counter = 0;
+    
+    $totalSellers = 0;
+    foreach ($provinces as $province) {
+        $totalSellers += $province->sellers->count();
+    }
+@endphp
+
+@if($totalSellers > 0)
 <table>
     <thead>
         <tr>
             <th>No</th>
             <th>Nama Toko</th>
             <th>Nama PIC</th>
-            <th>Provinsi</th> 
+            <th>Provinsi</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($province->sellers as $index => $seller)
-        <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $seller->nama_toko }}</td>
-            <td>{{ $seller->nama_pic }}</td>
-            <td>{{ $province->name }}</td>
-        </tr>
+        @foreach($provinces as $province)
+            @foreach($province->sellers as $seller)
+            @php
+                $counter++;
+            @endphp
+            <tr>
+                <td>{{ $counter }}</td>
+                <td>{{ $seller->nama_toko }}</td>
+                <td>{{ $seller->nama_pic }}</td>
+                <td>{{ $province->name }}</td>
+            </tr>
+            @endforeach
         @endforeach
     </tbody>
 </table>
+
 @else
-<p>Tidak ada penjual di provinsi ini.</p>
+    <p>Tidak ada penjual yang terdaftar di semua provinsi.</p>
 @endif
-@endforeach
+
 @endsection
