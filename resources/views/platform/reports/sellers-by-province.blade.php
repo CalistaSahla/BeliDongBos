@@ -22,8 +22,7 @@
             <th>No</th>
             <th>Nama Toko</th>
             <th>Nama PIC</th>
-            <th>Email</th>
-            <th>Kota/Kabupaten</th>
+            <th>Provinsi</th> 
         </tr>
     </thead>
     <tbody>
@@ -32,8 +31,7 @@
             <td>{{ $index + 1 }}</td>
             <td>{{ $seller->nama_toko }}</td>
             <td>{{ $seller->nama_pic }}</td>
-            <td>{{ $seller->email }}</td>
-            <td>{{ $seller->city->name ?? '-' }}</td>
+            <td>{{ $province->name }}</td>
         </tr>
         @endforeach
     </tbody>
