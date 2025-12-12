@@ -3,6 +3,15 @@
 @section('title', 'Laporan Produk dan Rating')
 @section('report-title', 'Daftar Produk dan Rating (Urut Rating Menurun)')
 
+@section('report-meta')
+    <p style="margin: 5px 0 0; color: #FFD700; font-size: 14px; font-weight: bold;">
+        Laporan Produk dan Rating
+    </p>
+    <p style="margin: 5px 0 0; color: #FFD700; font-size: 10px; font-weight: bold;">
+        Tanggal dibuat: {{ now()->format('d-m-Y') }} oleh {{ Auth::user()->name ?? 'NamaAkun Default' }}
+    </p>
+@endsection
+
 @section('content')
 <table>
     <thead>

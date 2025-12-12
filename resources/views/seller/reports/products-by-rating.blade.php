@@ -4,7 +4,9 @@
 @section('report-title', 'Daftar Stok Produk (Urut Rating Menurun) - SRS-13')
 
 @section('report-meta')
-    {{-- style="color: #FFD700;" agar warnanya kontras dengan background header --}}
+    <p style="margin: 5px 0 0; color: #FFD700; font-size: 14px; font-weight: bold;">
+        Laporan Stok Produk Berdasarkan Rating
+    </p>
     <p style="margin: 5px 0 0; color: #FFD700; font-size: 10px; font-weight: bold;">
         Tanggal dibuat: {{ now()->format('d-m-Y') }} oleh {{ Auth::user()->name ?? 'NamaAkun Default' }}
     </p>

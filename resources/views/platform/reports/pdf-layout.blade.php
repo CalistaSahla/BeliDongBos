@@ -6,8 +6,7 @@
     <style>
         body { font-family: 'Comic Sans MS', Arial, sans-serif; font-size: 12px; }
         .header { text-align: center; margin-bottom: 20px; border-bottom: 4px solid #FFD700; padding-bottom: 10px; background: linear-gradient(90deg, #663399, #008080); color: white; padding: 15px; }
-        .header h1 { color: #FFD700; margin: 0; font-size: 20px; text-shadow: 2px 2px 0 #333; }
-        .header p { margin: 5px 0 0; color: #fff; font-size: 10px; }
+        .header h1 { color: #FFD700; margin: 0; font-size: 16px; text-shadow: 2px 2px 0 #333; }        .header p { margin: 5px 0 0; color: #fff; font-size: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 3px solid #333; }
         th, td { border: 2px solid #333; padding: 8px; text-align: left; }
         th { background-color: #008080; color: white; }
@@ -24,9 +23,7 @@
 <body>
     <div class="header">
     <h1>BeliDongBos Marketplace</h1>
-    <p>@yield('report-title')</p>
     @yield('report-meta') 
-    <p>Digenerate pada: {{ $generatedAt }}</p> 
     </div>
 
     @yield('content')

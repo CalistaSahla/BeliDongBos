@@ -4,7 +4,9 @@
 @section('report-title', 'Daftar Penjual untuk Setiap Provinsi')
 
 @section('report-meta')
-    {{-- style="color: #FFD700;"}}
+    <p style="margin: 5px 0 0; color: #FFD700; font-size: 14px; font-weight: bold;">
+        Laporan Penjual per Provinsi
+    </p>
     <p style="margin: 5px 0 0; color: #FFD700; font-size: 10px; font-weight: bold;">
         Tanggal dibuat: {{ now()->format('d-m-Y') }} oleh {{ Auth::user()->name ?? 'NamaAkun Default' }}
     </p>

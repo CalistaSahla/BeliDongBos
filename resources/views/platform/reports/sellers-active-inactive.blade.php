@@ -1,10 +1,11 @@
 @extends('platform.reports.pdf-layout')
 
 @section('title', 'Laporan Penjual Aktif/Tidak Aktif')
-@section('report-title', 'Laporan Penjual Aktif dan Tidak Aktif')
 
 @section('report-meta')
-    {{-- style="color: #FFD700;"}}
+    <p style="margin: 5px 0 0; color: #FFD700; font-size: 14px; font-weight: bold;">
+        Laporan Penjual Aktif dan Tidak Aktif
+    </p>
     <p style="margin: 5px 0 0; color: #FFD700; font-size: 10px; font-weight: bold;">
         Tanggal dibuat: {{ now()->format('d-m-Y') }} oleh {{ Auth::user()->name ?? 'NamaAkun Default' }}
     </p>
