@@ -2,8 +2,137 @@
 
 @section('title', 'Katalog Produk')
 
+@push('styles')
+<style>
+    .hero-billboard {
+        background: linear-gradient(135deg, var(--retro-purple) 0%, var(--retro-teal) 50%, var(--retro-blue) 100%);
+        border: 4px solid #333;
+        box-shadow: 8px 8px 0 #333;
+        border-radius: 0;
+        overflow: hidden;
+        position: relative;
+    }
+    .hero-billboard::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        pointer-events: none;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    .hero-title {
+        font-family: 'Pixelify Sans', sans-serif;
+        color: var(--retro-yellow);
+        text-shadow: 4px 4px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333;
+        font-size: 2.5rem;
+    }
+    .hero-subtitle {
+        color: #fff;
+        text-shadow: 2px 2px 0 #333;
+    }
+    .hero-badge {
+        display: inline-block;
+        background: var(--retro-yellow);
+        color: #333;
+        padding: 5px 15px;
+        border: 3px solid #333;
+        box-shadow: 3px 3px 0 #333;
+        font-weight: bold;
+        transform: rotate(-3deg);
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { transform: rotate(-3deg) scale(1); }
+        50% { transform: rotate(-3deg) scale(1.05); }
+    }
+    .category-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    .category-pill {
+        background: #fff;
+        border: 2px solid #333;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+        box-shadow: 3px 3px 0 #333;
+        transition: all 0.2s;
+    }
+    .category-pill:hover {
+        background: var(--retro-yellow);
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 #333;
+        color: #333;
+    }
+    .category-pill.active {
+        background: var(--retro-purple);
+        color: #fff;
+    }
+    .floating-emoji {
+        position: absolute;
+        font-size: 2rem;
+        opacity: 0.3;
+        animation: float 3s ease-in-out infinite;
+    }
+    .floating-emoji:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .floating-emoji:nth-child(2) { top: 20%; right: 8%; animation-delay: 0.5s; }
+    .floating-emoji:nth-child(3) { bottom: 15%; left: 10%; animation-delay: 1s; }
+    .floating-emoji:nth-child(4) { bottom: 25%; right: 5%; animation-delay: 1.5s; }
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(10deg); }
+    }
+</style>
+@endpush
+
 @section('content')
-<div class="container py-4">
+<!-- Hero Billboard -->
+<div class="hero-billboard mb-4">
+    <div class="floating-emoji">🛍️</div>
+    <div class="floating-emoji">⭐</div>
+    <div class="floating-emoji">✨</div>
+    <div class="floating-emoji">🎉</div>
+    <div class="container py-5">
+        <div class="hero-content text-center">
+            <span class="hero-badge mb-3">✨ KATALOG PRODUK</span>
+            <h1 class="hero-title mb-3">Selamat Datang di BeliDongBos!</h1>
+            <p class="hero-subtitle fs-5 mb-4">
+                Jelajahi berbagai produk menarik dari penjual di seluruh Indonesia.
+                <br>Temukan inspirasi dan lihat koleksi terbaik kami!
+            </p>
+            <a href="#products" class="btn btn-primary btn-lg">
+                <i class="bi bi-eye"></i> Lihat Produk
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Category Quick Access -->
+<div class="container mb-4">
+    <div class="category-pills">
+        <a href="{{ route('catalog.index') }}" class="category-pill {{ !request('category_id') ? 'active' : '' }}">
+            <i class="bi bi-grid-fill"></i> Semua
+        </a>
+        @foreach($categories->take(8) as $cat)
+            <a href="{{ route('catalog.index', ['category_id' => $cat->id]) }}" 
+               class="category-pill {{ request('category_id') == $cat->id ? 'active' : '' }}">
+                {{ $cat->name }}
+            </a>
+        @endforeach
+    </div>
+</div>
+
+<div class="container py-4" id="products">
     <div class="row">
         <div class="col-md-3">
             <div class="card shadow-sm mb-4">
