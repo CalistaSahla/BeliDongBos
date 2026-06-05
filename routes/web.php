@@ -9,7 +9,6 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\SellerRegistrationController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
 
 // Home - Redirect to catalog
 Route::get('/', function () {
@@ -34,9 +33,8 @@ Route::post('/daftar-penjual', [SellerRegistrationController::class, 'register']
 Route::get('/daftar-penjual/sukses', [SellerRegistrationController::class, 'success'])->name('seller.register.success');
 Route::get('/aktivasi/{token}', [SellerRegistrationController::class, 'activate'])->name('seller.activate');
 
-// API for cities and villages
+// API for cities
 Route::get('/api/cities', [SellerRegistrationController::class, 'getCities'])->name('api.cities');
-Route::get('/api/villages', [SellerRegistrationController::class, 'getVillages'])->name('api.villages');
 
 // Platform Admin Routes
 Route::prefix('platform')->middleware(['auth', 'platform'])->group(function () {
@@ -47,11 +45,14 @@ Route::prefix('platform')->middleware(['auth', 'platform'])->group(function () {
     Route::post('/penjual/{seller}/reject', [PlatformController::class, 'rejectSeller'])->name('platform.seller.reject');
     Route::get('/semua-penjual', [PlatformController::class, 'allSellers'])->name('platform.all-sellers');
     
-    // Platform Reports (SRS-09, 10, 11)
+    // Reports
     Route::get('/laporan', [ReportController::class, 'index'])->name('platform.reports');
     Route::get('/laporan/penjual-aktif-tidak-aktif', [ReportController::class, 'sellersActiveInactive'])->name('report.sellers-active-inactive');
     Route::get('/laporan/penjual-per-provinsi', [ReportController::class, 'sellersByProvince'])->name('report.sellers-by-province');
     Route::get('/laporan/produk-rating-tertinggi', [ReportController::class, 'productsByRating'])->name('report.products-by-rating');
+    Route::get('/laporan/stok-tertinggi', [ReportController::class, 'productsByStock'])->name('report.products-by-stock');
+    Route::get('/laporan/stok-berdasarkan-rating', [ReportController::class, 'productsByStockAndRating'])->name('report.products-by-stock-rating');
+    Route::get('/laporan/produk-restock', [ReportController::class, 'productsNeedRestock'])->name('report.products-need-restock');
 });
 
 // Seller Routes
@@ -65,20 +66,4 @@ Route::prefix('seller')->middleware(['auth', 'seller'])->group(function () {
     Route::get('/produk/{product}/edit', [ProductController::class, 'edit'])->name('seller.products.edit');
     Route::put('/produk/{product}', [ProductController::class, 'update'])->name('seller.products.update');
     Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('seller.products.destroy');
-    
-    // Seller Reports (SRS-12, 13, 14)
-    Route::get('/laporan', [ReportController::class, 'sellerReportsIndex'])->name('seller.reports');
-    Route::get('/laporan/stok-tertinggi', [ReportController::class, 'sellerProductsByStock'])->name('seller.report.products-by-stock');
-    Route::get('/laporan/stok-berdasarkan-rating', [ReportController::class, 'sellerProductsByRating'])->name('seller.report.products-by-rating');
-    Route::get('/laporan/produk-restock', [ReportController::class, 'sellerProductsNeedRestock'])->name('seller.report.products-need-restock');
-});
-
-
-Route::get('/test-email', function () {
-    Mail::raw('Hello, this is a test email from Laravel using Mailtrap.', function ($message) {
-        $message->to('test@example.com')
-                ->subject('Mailtrap Laravel Test');
-    });
-
-    return 'Email sent! Check Mailtrap.';
 });

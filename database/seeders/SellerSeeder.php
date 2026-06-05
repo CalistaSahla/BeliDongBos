@@ -12,106 +12,70 @@ class SellerSeeder extends Seeder
 {
     public function run(): void
     {
-        // City IDs berdasarkan urutan insert di ProvinceSeeder:
-        // Aceh (1-5), Sumut (6-12: Medan=6), Sumbar (13-19: Padang=13), Riau (20-21), Jambi (22-23)
-        // Sumsel (24-27: Palembang=24), Bengkulu (28), Lampung (29-30), Babel (31), Kepri (32-33)
-        // DKI Jakarta (34-38: JakPus=34, JakUt=35, JakBar=36, JakSel=37, JakTim=38)
-        // Jabar (39-46: Bandung=39, Bekasi=40, Bogor=41), Jateng (47-52: Semarang=47, Solo=51)
-        // DIY (53: Yogyakarta=53), Jatim (54-62: Surabaya=54, Malang=59)
-        // Banten (63-66), Bali (67: Denpasar=67)
-        
         $sellers = [
-            // Tim Utama
             [
-                'user' => ['name' => 'Calista Sahla', 'email' => 'calista@calistastore.com'],
+                'user' => ['name' => 'Calista Aurelia', 'email' => 'calista@calistastore.com'],
                 'seller' => [
-                    'nama_toko' => 'Calista Store',
-                    'nama_pic' => 'Calista Sahla',
+                    'nama_toko' => 'Calista Gadget Store',
+                    'nama_pic' => 'Calista Aurelia',
                     'kontak_pic' => '081234567890',
-                    'alamat_toko' => 'Jl. Thamrin No. 123, Jakarta Pusat',
-                    'city_id' => 34, // Jakarta Pusat
-                    'province_id' => 11, // DKI Jakarta
+                    'alamat_toko' => 'Jl. Mangga Dua No. 123, Jakarta Pusat',
+                    'city_id' => 1,
+                    'province_id' => 11,
                     'nomor_hp' => '081234567890',
                     'email' => 'calista@calistastore.com',
                 ],
             ],
             [
-                'user' => ['name' => 'Angelica Putri', 'email' => 'angelica@angelicamart.com'],
+                'user' => ['name' => 'Aninditya Putri', 'email' => 'aninditya@aninfashion.com'],
                 'seller' => [
-                    'nama_toko' => 'Angelica Mart',
-                    'nama_pic' => 'Angelica Putri',
+                    'nama_toko' => 'Aninditya Fashion House',
+                    'nama_pic' => 'Aninditya Putri',
                     'kontak_pic' => '082345678901',
                     'alamat_toko' => 'Jl. Braga No. 45, Bandung',
-                    'city_id' => 39, // Bandung
-                    'province_id' => 12, // Jawa Barat
+                    'city_id' => 6,
+                    'province_id' => 12,
                     'nomor_hp' => '082345678901',
-                    'email' => 'angelica@angelicamart.com',
+                    'email' => 'aninditya@aninfashion.com',
                 ],
             ],
             [
-                'user' => ['name' => 'Aninditya Nabilah', 'email' => 'aninditya@anindityamarket.com'],
+                'user' => ['name' => 'Angelica Dewi', 'email' => 'angelica@angelicashop.com'],
                 'seller' => [
-                    'nama_toko' => 'Aninditya Market',
-                    'nama_pic' => 'Aninditya Nabilah',
+                    'nama_toko' => 'Angelica Beauty Shop',
+                    'nama_pic' => 'Angelica Dewi',
                     'kontak_pic' => '083456789012',
                     'alamat_toko' => 'Jl. Tunjungan No. 78, Surabaya',
-                    'city_id' => 54, // Surabaya
-                    'province_id' => 15, // Jawa Timur
+                    'city_id' => 23,
+                    'province_id' => 15,
                     'nomor_hp' => '083456789012',
-                    'email' => 'aninditya@anindityamarket.com',
+                    'email' => 'angelica@angelicashop.com',
                 ],
             ],
             [
-                'user' => ['name' => 'Benjamin Hamonangan', 'email' => 'benjamin@benjaminshop.com'],
+                'user' => ['name' => 'Miranda Salsabila', 'email' => 'miranda@mirandamart.com'],
                 'seller' => [
-                    'nama_toko' => 'Benjamin Shop',
-                    'nama_pic' => 'Benjamin Hamonangan',
+                    'nama_toko' => 'Miranda Home & Living',
+                    'nama_pic' => 'Miranda Salsabila',
                     'kontak_pic' => '084567890123',
                     'alamat_toko' => 'Jl. Malioboro No. 12, Yogyakarta',
-                    'city_id' => 53, // Yogyakarta
-                    'province_id' => 14, // DI Yogyakarta
+                    'city_id' => 22,
+                    'province_id' => 14,
                     'nomor_hp' => '084567890123',
-                    'email' => 'benjamin@benjaminshop.com',
+                    'email' => 'miranda@mirandamart.com',
                 ],
             ],
-            // Public Figure
             [
-                'user' => ['name' => 'Elon Musk', 'email' => 'elon@elonmarket.com'],
+                'user' => ['name' => 'Keisha Nathania', 'email' => 'keisha@keishasport.com'],
                 'seller' => [
-                    'nama_toko' => 'Elon Market',
-                    'nama_pic' => 'Elon Musk',
+                    'nama_toko' => 'Keisha Sport & Hobby',
+                    'nama_pic' => 'Keisha Nathania',
                     'kontak_pic' => '085678901234',
-                    'alamat_toko' => 'Jl. Gatot Subroto No. 56, Jakarta Selatan',
-                    'city_id' => 37, // Jakarta Selatan
-                    'province_id' => 11, // DKI Jakarta
+                    'alamat_toko' => 'Jl. Asia Afrika No. 56, Bandung',
+                    'city_id' => 6,
+                    'province_id' => 12,
                     'nomor_hp' => '085678901234',
-                    'email' => 'elon@elonmarket.com',
-                ],
-            ],
-            [
-                'user' => ['name' => 'Taylor Swift', 'email' => 'taylor@taylorstore.com'],
-                'seller' => [
-                    'nama_toko' => 'Taylor Store',
-                    'nama_pic' => 'Taylor Swift',
-                    'kontak_pic' => '086789012345',
-                    'alamat_toko' => 'Jl. Sunset Road No. 88, Denpasar',
-                    'city_id' => 67, // Denpasar
-                    'province_id' => 17, // Bali
-                    'nomor_hp' => '086789012345',
-                    'email' => 'taylor@taylorstore.com',
-                ],
-            ],
-            [
-                'user' => ['name' => 'Joko Widodo', 'email' => 'jokowi@jokowimart.com'],
-                'seller' => [
-                    'nama_toko' => 'Jokowi Mart',
-                    'nama_pic' => 'Joko Widodo',
-                    'kontak_pic' => '087890123456',
-                    'alamat_toko' => 'Jl. Slamet Riyadi No. 100, Solo',
-                    'city_id' => 51, // Solo
-                    'province_id' => 13, // Jawa Tengah
-                    'nomor_hp' => '087890123456',
-                    'email' => 'jokowi@jokowimart.com',
+                    'email' => 'keisha@keishasport.com',
                 ],
             ],
         ];

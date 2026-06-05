@@ -10,20 +10,9 @@
     </a>
 </div>
 
-@if($errors->any())
-<div class="alert alert-danger">
-    <strong>Error!</strong> Periksa kembali inputan Anda.
-    <ul class="mb-0 mt-2">
-        @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
 <div class="card shadow-sm">
     <div class="card-body">
-        <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data" id="formProduk">
+        <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="row">
@@ -71,17 +60,21 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Berat</label>
                             <input type="text" name="berat" class="form-control" value="{{ old('berat') }}" 
                                 placeholder="contoh: 500 gram">
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Kondisi <span class="text-danger">*</span></label>
                             <select name="kondisi" class="form-select" required>
                                 <option value="baru" {{ old('kondisi') == 'baru' ? 'selected' : '' }}>Baru</option>
                                 <option value="bekas" {{ old('kondisi') == 'bekas' ? 'selected' : '' }}>Bekas</option>
                             </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Min. Pembelian</label>
+                            <input type="text" name="min_pembelian" class="form-control" value="{{ old('min_pembelian', '1') }}">
                         </div>
                     </div>
 
@@ -110,20 +103,10 @@
             </div>
 
             <hr>
-            <button type="submit" class="btn btn-primary" id="btnSimpan">
+            <button type="submit" class="btn btn-primary">
                 <i class="bi bi-check-circle"></i> Simpan Produk
             </button>
         </form>
     </div>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-document.getElementById('formProduk').addEventListener('submit', function(e) {
-    var btn = document.getElementById('btnSimpan');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Menyimpan...';
-});
-</script>
-@endpush

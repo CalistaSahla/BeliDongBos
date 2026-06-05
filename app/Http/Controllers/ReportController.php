@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\Province;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -107,72 +106,17 @@ class ReportController extends Controller
         return $pdf->download('laporan-stok-produk-berdasarkan-rating.pdf');
     }
 
-    // ===== SELLER REPORTS (SRS-12, 13, 14) =====
-    
-    public function sellerReportsIndex()
+    public function productsNeedRestock()
     {
-        return view('seller.reports.index');
-    }
-
-    // SRS-12: Laporan stok produk diurutkan berdasarkan stok descending
-    public function sellerProductsByStock()
-    {
-        $seller = Auth::user()->seller;
-        $seller->load(['province', 'city']);
-        
-        $products = Product::with(['category'])
-            ->where('seller_id', $seller->id)
-            ->where('is_active', true)
-            ->orderBy('stok', 'desc')
-            ->get();
-
-        $pdf = Pdf::loadView('seller.reports.products-by-stock', [
-            'products' => $products,
-            'seller' => $seller,
-            'generatedAt' => now()->format('d/m/Y H:i'),
-        ]);
-
-        return $pdf->download('laporan-stok-produk-tertinggi.pdf');
-    }
-
-    // SRS-13: Laporan stok produk diurutkan berdasarkan rating descending
-    public function sellerProductsByRating()
-    {
-        $seller = Auth::user()->seller;
-        $seller->load(['province', 'city']);
-        
-        $products = Product::with(['category'])
-            ->where('seller_id', $seller->id)
-            ->where('is_active', true)
-            ->orderBy('rating_avg', 'desc')
-            ->get();
-
-        $pdf = Pdf::loadView('seller.reports.products-by-rating', [
-            'products' => $products,
-            'seller' => $seller,
-            'generatedAt' => now()->format('d/m/Y H:i'),
-        ]);
-
-        return $pdf->download('laporan-stok-produk-berdasarkan-rating.pdf');
-    }
-
-    // SRS-14: Laporan stok barang yang harus segera dipesan (stok < 2)
-    public function sellerProductsNeedRestock()
-    {
-        $seller = Auth::user()->seller;
-        $seller->load(['province', 'city']);
-        
-        $products = Product::with(['category'])
-            ->where('seller_id', $seller->id)
+        $products = Product::with(['seller.province', 'category'])
             ->where('is_active', true)
             ->where('stok', '<', 2)
             ->orderBy('stok', 'asc')
             ->orderBy('nama_produk', 'asc')
             ->get();
 
-        $pdf = Pdf::loadView('seller.reports.products-need-restock', [
+        $pdf = Pdf::loadView('platform.reports.products-need-restock', [
             'products' => $products,
-            'seller' => $seller,
             'generatedAt' => now()->format('d/m/Y H:i'),
         ]);
 

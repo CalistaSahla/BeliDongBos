@@ -11,19 +11,13 @@ class Seller extends Model
     protected $fillable = [
         'user_id',
         'nama_toko',
-        'deskripsi_singkat',
         'nama_pic',
         'kontak_pic',
         'alamat_toko',
-        'rt',
-        'rw',
-        'village_id',
         'city_id',
         'province_id',
         'nomor_hp',
         'email',
-        'no_ktp',
-        'foto_pic',
         'foto_ktp',
         'status',
         'rejection_reason',
@@ -40,11 +34,6 @@ class Seller extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function village(): BelongsTo
-    {
-        return $this->belongsTo(Village::class);
     }
 
     public function city(): BelongsTo

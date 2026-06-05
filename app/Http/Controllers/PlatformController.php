@@ -30,17 +30,19 @@ class PlatformController extends Controller
             ->get()
             ->map(fn($c) => ['name' => $c->name, 'count' => $c->products_count]);
 
-        $sellersPerProvince = Province::withCount(['sellers' => function($q) {
-                $q->where('status', 'approved');
-            }])
-            ->orderBy('sellers_count', 'desc')
+        $productsPerProvince = Province::select('provinces.id', 'provinces.name')
+            ->leftJoin('sellers', 'provinces.id', '=', 'sellers.province_id')
+            ->leftJoin('products', 'sellers.id', '=', 'products.seller_id')
+            ->selectRaw('COUNT(products.id) as products_count')
+            ->groupBy('provinces.id', 'provinces.name')
+            ->orderBy('products_count', 'desc')
             ->limit(10)
             ->get()
-            ->map(fn($p) => ['name' => $p->name, 'count' => $p->sellers_count]);
+            ->map(fn($p) => ['name' => $p->name, 'count' => $p->products_count]);
 
         $ratingsCount = Rating::count();
 
-        return view('platform.dashboard', compact('stats', 'productsPerCategory', 'sellersPerProvince', 'ratingsCount'));
+        return view('platform.dashboard', compact('stats', 'productsPerCategory', 'productsPerProvince', 'ratingsCount'));
     }
 
     public function pendingSellers()
@@ -61,12 +63,8 @@ class PlatformController extends Controller
 
     public function approveSeller(Request $request, Seller $seller)
     {
-        // Generate new activation token if not exists
-        $activationToken = $seller->activation_token ?? \Illuminate\Support\Str::random(60);
-        
         $seller->update([
             'status' => 'approved',
-            'activation_token' => $activationToken,
         ]);
 
         Mail::to($seller->email)->send(new SellerApproved($seller));

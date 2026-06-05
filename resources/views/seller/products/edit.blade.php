@@ -61,16 +61,20 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Berat</label>
                             <input type="text" name="berat" class="form-control" value="{{ old('berat', $product->berat) }}">
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Kondisi <span class="text-danger">*</span></label>
                             <select name="kondisi" class="form-select" required>
                                 <option value="baru" {{ old('kondisi', $product->kondisi) == 'baru' ? 'selected' : '' }}>Baru</option>
                                 <option value="bekas" {{ old('kondisi', $product->kondisi) == 'bekas' ? 'selected' : '' }}>Bekas</option>
                             </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Min. Pembelian</label>
+                            <input type="text" name="min_pembelian" class="form-control" value="{{ old('min_pembelian', $product->min_pembelian) }}">
                         </div>
                     </div>
 
@@ -92,13 +96,7 @@
                     <div class="mb-3">
                         <label class="form-label">Foto Utama Saat Ini</label>
                         @if($product->foto_utama)
-                            @if(str_starts_with($product->foto_utama, 'http'))
-                                <img src="{{ $product->foto_utama }}" class="img-thumbnail mb-2" style="max-height: 150px;">
-                            @elseif(str_starts_with($product->foto_utama, '/'))
-                                <img src="{{ asset($product->foto_utama) }}" class="img-thumbnail mb-2" style="max-height: 150px;">
-                            @else
-                                <img src="{{ asset('storage/' . $product->foto_utama) }}" class="img-thumbnail mb-2" style="max-height: 150px;">
-                            @endif
+                            <img src="{{ asset('storage/' . $product->foto_utama) }}" class="img-thumbnail mb-2" style="max-height: 150px;">
                         @endif
                         <input type="file" name="foto_utama" class="form-control @error('foto_utama') is-invalid @enderror" accept="image/*">
                         <small class="text-muted">Kosongkan jika tidak ingin mengubah</small>
@@ -111,13 +109,7 @@
                             <div class="row mb-2">
                                 @foreach($product->foto_galeri as $foto)
                                     <div class="col-4 mb-2">
-                                        @if(str_starts_with($foto, 'http'))
-                                            <img src="{{ $foto }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
-                                        @elseif(str_starts_with($foto, '/'))
-                                            <img src="{{ asset($foto) }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
-                                        @else
-                                            <img src="{{ asset('storage/' . $foto) }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
-                                        @endif
+                                        <img src="{{ asset('storage/' . $foto) }}" class="img-thumbnail" style="height: 60px; object-fit: cover;">
                                     </div>
                                 @endforeach
                             </div>
